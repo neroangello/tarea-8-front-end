@@ -1,0 +1,145 @@
+function showElements(){
+
+    const personajes = getData(url);
+    console.log(personajes);
+ 
+    let id=0;
+
+    personajes.forEach(elemento => {
+        const personaje = new Personaje(id, elemento.name, elemento.species, elemento.image);
+        salida.push(personaje);
+        id++;
+    });    
+
+    try {
+        const contenedor = document.getElementById("contenedor");
+        
+        personajes.forEach(elemento => {
+            contenedor.appendChild(crearTarjeta(elemento.getId(), elemento.getNombre(), elemento.getImagen(), elemento.getEspecie));
+        });
+
+    } catch (error) {
+        console.log(error);
+    }
+
+    setTimeout(() => {  escondeCarga(); console.log('Ahora'); }, 5000);
+
+}
+
+function crearTarjeta(idTarjeta, nombreTarjeta, rutaImagen, especie){
+
+    tarjeta = document.createElement("article");
+    tarjeta.className = "card"
+    tarjeta.classList.add("text-white");
+    tarjeta.classList.add("bg-primary");
+    tarjeta.classList.add("mb-3");
+    tarjeta.classList.add("mx-w-18");
+    bloqueTitulo = document.createElement("div");
+    bloqueTitulo.classList.add("card-header");
+    bloqueTitulo.innerHTML = "Identificador";
+    bloqueCuerpo = document.createElement("div");
+    bloqueCuerpo.classList.add("card-body");
+    imagen = document.createElement("img");
+    imagen.src = "https://rickandmortyapi.com/api/character/avatar/1.jpeg";
+    subtitulo = document.createElement("h5");
+    subtitulo.innerHTML = "Subtitulo";
+    subtitulo.classList.add("card-title");
+    parrafo = document.createElement("p");
+    parrafo.classList.add("card-text");
+    parrafo.innerHTML = "Parrafo de prueba";
+    
+    bloqueCuerpo.appendChild(subtitulo);
+    bloqueCuerpo.appendChild(imagen);
+    bloqueCuerpo.appendChild(parrafo);
+    tarjeta.appendChild(bloqueTitulo);
+    tarjeta.appendChild(bloqueCuerpo);
+
+    return tarjeta;
+
+}
+
+
+
+
+
+
+showElements();
+
+
+
+
+//const arregloPersonajes = getData(url);
+
+/*arregloPersonajes.forEach(elemento => {
+    console.log(elemento);
+});*/
+
+//console.log(arregloPersonajes);
+/*
+const arregloPersonajes = [];
+
+const rick = new Personaje(0, "Rick Sanchez", "Human", "https://rickandmortyapi.com/api/character/avatar/1.jpeg");
+const morty = new Personaje(1, "Morty Smith", "Human", "https://rickandmortyapi.com/api/character/avatar/2.jpeg");
+const summer = new Personaje(2, "Summer Sanchez", "Human", "https://rickandmortyapi.com/api/character/avatar/3.jpeg");
+const beth = new Personaje(3, "Beth Sanchez", "Human", "https://rickandmortyapi.com/api/character/avatar/4.jpeg");
+const jerry = new Personaje(4, "Jerry Sanchez", "Human", "https://rickandmortyapi.com/api/character/avatar/5.jpeg");
+
+arregloPersonajes.push(rick);
+arregloPersonajes.push(morty);
+arregloPersonajes.push(summer);
+arregloPersonajes.push(beth);
+arregloPersonajes.push(jerry);
+
+
+*/
+
+
+
+
+
+function escondeCarga(){
+    const bloqueCarga = document.getElementById("bloqueCarga");
+    bloqueCarga.classList.add('oculto');
+}
+
+const url = 'https://rickandmortyapi.com/api/character'
+
+const llamadaApi = (direccion) => {
+    return axios.get(direccion)
+    .then(response => {
+        return response.data.results;
+    }).catch(error => {
+         console.log(error);
+    })
+}
+
+const getData = async(url) => {
+
+    const data = await llamadaApi(url);
+    let salida = [];
+    let id=0;  
+    
+    data.forEach(elemento => {
+        const personaje = new Personaje(id, elemento.name, elemento.species, elemento.image);
+        salida.push(personaje);
+        id++;
+    });
+    
+    console.log(salida);
+    return salida;
+
+}
+
+
+function prueba(url){
+
+    getData(url);
+
+    
+
+
+}
+
+prueba(url);
+
+
